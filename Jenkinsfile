@@ -8,8 +8,8 @@ parameters {
 pipeline {
   agent { label 'docker' }
   environment {
-    ARTIFACT_VERSIONED=${REPOSITORY}/jenkins-helm-slave:${VERSION}
-    ARTIFACT_LATEST=${REPOSITORY}/jenkins-helm-slave:latest
+    ARTIFACT_VERSIONED="${REPOSITORY}/jenkins-helm-slave:${VERSION}"
+    ARTIFACT_LATEST="${REPOSITORY}/jenkins-helm-slave:latest"
   }
   stages {
     stage('Validate') {
