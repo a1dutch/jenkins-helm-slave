@@ -3,7 +3,6 @@
 pipeline {
   agent { label 'docker' }
   options {
-    timestamps()
     skipDefaultCheckout()
     disableConcurrentBuilds()
     timeout(time: 1, unit: 'HOURS')
