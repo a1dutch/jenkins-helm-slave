@@ -1,12 +1,11 @@
 @Library('pipeline@master') _
 
-parameters {
-  string(defaultValue: "a1dutch", description: '', name: 'REPOSITORY')
-  string(defaultValue: "", description: '', name: 'VERSION')
-}
-
 pipeline {
   agent { label 'docker' }
+  parameters {
+    string(defaultValue: "a1dutch", description: '', name: 'REPOSITORY')
+    string(defaultValue: "", description: '', name: 'VERSION')
+  }
   environment {
     ARTIFACT_VERSIONED="${REPOSITORY}/jenkins-helm-slave:${VERSION}"
     ARTIFACT_LATEST="${REPOSITORY}/jenkins-helm-slave:latest"
