@@ -25,6 +25,11 @@ pipeline {
         }
       }
     }
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
     stage('Build') {
       steps {
         sh "docker build -t ${ARTIFACT_VERSIONED} ."
