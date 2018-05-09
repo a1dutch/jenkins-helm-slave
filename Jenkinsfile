@@ -12,30 +12,17 @@ pipeline {
     string(defaultValue: "", description: '', name: 'VERSION')
   }
   environment {
-    ARTIFACT_VERSIONED="${REPOSITORY}/jenkins-helm-slave:${VERSION}"
-    ARTIFACT_LATEST="${REPOSITORY}/jenkins-helm-slave:latest"
+    ARTIFACT="jenkins-helm-slave"
   }
   stages {
-    stage('Validate') {
-      steps {
-        script {
-            if (!VERSION) {
-              throw new Exception("Version must be supplied, version: '${VERSION}'")
-            }
-        }
-      }
-    }
     stage('Checkout') {
       steps {
-        checkout scm
+        checkout(scm)
       }
     }
-    stage('Build') {
+    stage('Docker Build') {
       steps {
-        sh "docker build -t ${ARTIFACT_VERSIONED} ."
-        sh "docker tag ${ARTIFACT_VERSIONED} ${ARTIFACT_LATEST}"
-        sh "docker push ${ARTIFACT_VERSIONED}"
-        sh "docker push ${ARTIFACT_LATEST}"
+        dockerBuild(REPOSITORY, ARTIFACT, VERSION, true)
       }
     }
   }
