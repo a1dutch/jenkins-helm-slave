@@ -3,7 +3,7 @@ FROM jenkins/jnlp-slave:3.19-1
 ARG KUBE_VERSION=1.9.7
 ARG HELM_VERSION=2.9.0
 ARG HELM_S3_VERSION=0.6.1
-ARG HELM_INTERNAL_REPO=s3://charts.a1dutch.co.uk
+ENV HELM_INTERNAL_REPO=s3://charts.a1dutch.co.uk
 
 USER root
 
@@ -17,8 +17,16 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION
   mv linux-amd64/helm /usr/local/bin/helm && \
   rm -rf linux-amd64
 
+RUN apt-get update && apt-get install make -qqy && \
+  rm -rf /var/lib/apt/lists/*
+
+RUN helm init --client-only
+
 RUN helm plugin install https://github.com/hypnoglow/helm-s3.git --version ${HELM_S3_VERSION}
 
-RUN helm repo add internal ${HELM_INTERNAL_REPO}
+ADD jenkins-slave-startup.sh /usr/local/bin/jenkins-slave-startup.sh
+RUN chmod +x /usr/local/bin/jenkins-slave-startup.sh
 
 USER jenkins
+
+ENTRYPOINT ["jenkins-slave-startup.sh"]
