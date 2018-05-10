@@ -22,7 +22,9 @@ pipeline {
     }
     stage('Docker Build') {
       steps {
-        dockerBuild(REPOSITORY, ARTIFACT, VERSION, true)
+        script {
+          dockerBuild(repository: REPOSITORY, artifact: ARTIFACT, version: VERSION)
+        }
       }
     }
   }
