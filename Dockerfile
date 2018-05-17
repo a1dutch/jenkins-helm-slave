@@ -1,9 +1,8 @@
 FROM jenkins/jnlp-slave:3.19-1
 
 ARG KUBE_VERSION=1.9.7
-ARG HELM_VERSION=2.9.0
+ARG HELM_VERSION=2.9.1
 ARG HELM_S3_VERSION=0.6.1
-ENV HELM_INTERNAL_REPO=s3://charts.a1dutch.co.uk
 
 USER root
 
