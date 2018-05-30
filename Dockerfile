@@ -19,13 +19,13 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION
 RUN apt-get update && apt-get install make -qqy && \
   rm -rf /var/lib/apt/lists/*
 
-RUN helm init --client-only
-
-RUN helm plugin install https://github.com/hypnoglow/helm-s3.git --version ${HELM_S3_VERSION}
-
 ADD jenkins-slave-startup.sh /usr/local/bin/jenkins-slave-startup.sh
 RUN chmod +x /usr/local/bin/jenkins-slave-startup.sh
 
 USER jenkins
+
+RUN helm init --client-only
+
+RUN helm plugin install https://github.com/hypnoglow/helm-s3.git --version ${HELM_S3_VERSION}
 
 ENTRYPOINT ["jenkins-slave-startup.sh"]
