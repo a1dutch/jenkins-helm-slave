@@ -28,6 +28,11 @@ pipeline {
       }
     }
     stage('Git Tag') {
+      when {
+        not {
+          environment name: 'VERSION', value: 'latest'
+        }
+      }
       steps {
         sshagent(['jenkins-ssh-key']) {
           sh("git tag -a '${VERSION}' -m '${VERSION}'")
